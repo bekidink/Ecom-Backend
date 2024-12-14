@@ -14,8 +14,8 @@ import { admin } from "../middleware/admin";
 
 const productRouter = Router();
 
-productRouter.post("/create", auth, admin, createProductController);
-productRouter.post("/get", getProductController);
+productRouter.post("/create-product", auth,  createProductController);
+productRouter.post("/get-product", getProductController);
 productRouter.post("/get-product-by-category", getProductByCategory);
 productRouter.post(
   "/get-pruduct-by-category-and-subcategory",
