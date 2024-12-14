@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user.controller");
+const auth_1 = __importDefault(require("../middleware/auth"));
+const multer_1 = __importDefault(require("../middleware/multer"));
+const userRouter = (0, express_1.Router)();
+userRouter.post("/register", user_controller_1.registerUserController);
+userRouter.post("/verify-email", user_controller_1.verifyEmailController);
+userRouter.post("/login", user_controller_1.loginController);
+userRouter.get("/logout", auth_1.default, user_controller_1.logoutController);
+userRouter.put("/upload-avatar", auth_1.default, multer_1.default.single("avatar"), user_controller_1.uploadAvatar);
+userRouter.put("/update-user", auth_1.default, user_controller_1.updateUserDetails);
+userRouter.put("/forgot-password", user_controller_1.forgotPasswordController);
+userRouter.put("/verify-forgot-password-otp", user_controller_1.verifyForgotPasswordOtp);
+userRouter.put("/reset-password", user_controller_1.resetpassword);
+userRouter.post("/refresh-token", user_controller_1.refreshToken);
+userRouter.get("/user-details", auth_1.default, user_controller_1.userDetails);
+exports.default = userRouter;

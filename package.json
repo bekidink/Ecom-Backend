@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
   "clean": "rm -rf build",
-  "build": "npm run clean && tsc",
+  "build": "tsc",
  
   "start": "node build/server.js"
   },
