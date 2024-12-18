@@ -1,12 +1,18 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
 
-if (!process.env.RESEND_API) {
-  console.log("Provide RESEND_API in side the .env file");
+if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+  console.log("Provide SMTP_USER and SMTP_PASSWORD in the .env file");
 }
 
-const resend = new Resend(process.env.RESEND_API);
+const transporter = nodemailer.createTransport({
+  service: "gmail", // You can change this to any email service (Gmail, Outlook, etc.)
+  auth: {
+    user: process.env.SMTP_USER, // Your email address
+    pass: process.env.SMTP_PASSWORD, // Your email password or app-specific password
+  },
+});
 
 const sendEmail = async ({
   sendTo,
@@ -15,23 +21,21 @@ const sendEmail = async ({
 }: {
   sendTo: string;
   subject: string;
-  html: any;
+  html: string;
 }) => {
   try {
-    const { data, error } = await resend.emails.send({
-      from: "Binkeyit <noreply@amitprajapati.co.in>",
-      to: sendTo,
-      subject: subject,
-      html: html,
-    });
+    const mailOptions = {
+      from: `"Binkeyit" <${process.env.SMTP_USER}>`, // Sender address
+      to: sendTo, // Receiver address
+      subject: subject, // Subject line
+      html: html, // HTML content
+    };
 
-    if (error) {
-      return console.error({ error });
-    }
-
-    return data;
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info.response);
+    return info;
   } catch (error) {
-    console.log(error);
+    console.error("Error sending email:", error);
   }
 };
 
