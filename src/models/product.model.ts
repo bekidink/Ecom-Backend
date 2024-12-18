@@ -62,8 +62,8 @@ productSchema.index(
     description: "text",
   },
   {
-    name: 10,
-    description: 5,
+    name: "10" ,
+    // description: true,
   }
 );
 

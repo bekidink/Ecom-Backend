@@ -7,8 +7,8 @@ import genertedRefreshToken from "../utils/generatedRefreshToken";
 import uploadImageClodinary from "../utils/uploadImageClodinary";
 import generatedOtp from "../utils/generatedOtp";
 import forgotPasswordTemplate from "../utils/forgetPasswordTemplate";
-import jwt from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { Request, Response, NextFunction, CookieOptions } from "express";
 export async function registerUserController(request:Request, response:Response) {
   try {
     const { name, email, password } = request.body;
@@ -152,10 +152,10 @@ export async function loginController(request:Request, response:Response) {
       last_login_date: new Date(),
     });
 
-    const cookiesOption = {
+    const cookiesOption: CookieOptions = {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
+     // sameSite: "None",
     };
     response.cookie("accessToken", accesstoken, cookiesOption);
     response.cookie("refreshToken", refreshToken, cookiesOption);
@@ -294,7 +294,9 @@ export async function forgotPasswordController(request:Request, response:any) {
     }
 
     const otp = generatedOtp();
-    const expireTime = new Date() + 60 * 60 * 1000; // 1hr
+    const expireTime = new Date();
+    expireTime.setTime(expireTime.getTime() + 60 * 60 * 1000); // Adding 1 hour (in milliseconds)
+    // 1hr
 
     const update = await UserModel.findByIdAndUpdate(user._id, {
       forgot_password_otp: otp,
@@ -347,7 +349,7 @@ export async function verifyForgotPasswordOtp(request:Request, response:any) {
       });
     }
 
-    const currentTime = new Date().toISOString();
+    const currentTime = new Date();
 
     if (user.forgot_password_expiry < currentTime) {
       return response.status(400).json({
@@ -465,7 +467,7 @@ export async function refreshToken(request:Request, response:any) {
       });
     }
 
-    const userId = verifyToken?._id;
+    const userId = (verifyToken as JwtPayload)._id;
 
     const newAccessToken = await generatedAccessToken(userId);
 

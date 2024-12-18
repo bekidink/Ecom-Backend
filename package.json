@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.ts",
   "scripts": {
-  "clean": "rm -rf build",
+  
   "build": "tsc",
  
   "start": "node build/server.js"

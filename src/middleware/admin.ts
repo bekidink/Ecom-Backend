@@ -1,6 +1,8 @@
 import UserModel from "../models/user.model";
 import e, { Request, Response, NextFunction } from "express";
-export const admin = async (request: Request, response: Response, next: NextFunction) => {
+import { asyncHandler } from "./auth";
+
+export const admin = asyncHandler(async (request: Request, response: Response, next: NextFunction) => {
   try {
     const userId = request.userId;
 
@@ -22,4 +24,4 @@ export const admin = async (request: Request, response: Response, next: NextFunc
       success: false,
     });
   }
-};
+});

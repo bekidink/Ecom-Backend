@@ -6,12 +6,13 @@ import {
   getCategoryController,
   updateCategoryController,
 } from "../controllers/category.controller";
+import asyncHandler from "../utils/asyncHandler";
 
 const categoryRouter = express.Router();
 
-categoryRouter.post("/add-category", auth, AddCategoryController);
-categoryRouter.get("/get-category", getCategoryController);
-categoryRouter.put("/update-category", auth, updateCategoryController);
-categoryRouter.delete("/delete-category", auth, deleteCategoryController);
+categoryRouter.post("/add-category", auth, asyncHandler(AddCategoryController));
+categoryRouter.get("/get-category", asyncHandler(getCategoryController));
+categoryRouter.put("/update-category", auth,asyncHandler( updateCategoryController));
+categoryRouter.delete("/delete-category", auth, asyncHandler(deleteCategoryController));
 
 export default categoryRouter;

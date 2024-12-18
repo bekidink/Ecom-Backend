@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.admin = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
-const admin = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+const auth_1 = require("./auth");
+exports.admin = (0, auth_1.asyncHandler)((request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = request.userId;
         const user = yield user_model_1.default.findById(userId);
@@ -34,5 +35,4 @@ const admin = (request, response, next) => __awaiter(void 0, void 0, void 0, fun
             success: false,
         });
     }
-});
-exports.admin = admin;
+}));

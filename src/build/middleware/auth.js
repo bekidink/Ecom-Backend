@@ -12,34 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.asyncHandler = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const auth = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+const asyncHandler = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
+exports.asyncHandler = asyncHandler;
+const auth = (0, exports.asyncHandler)((request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    try {
-        const token = request.cookies.accessToken ||
-            ((_b = (_a = request === null || request === void 0 ? void 0 : request.headers) === null || _a === void 0 ? void 0 : _a.authorization) === null || _b === void 0 ? void 0 : _b.split(" ")[1]);
-        if (!token) {
-            return response.status(401).json({
-                message: "Provide token",
-            });
-        }
-        const decode = yield jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY_ACCESS_TOKEN);
-        if (!decode) {
-            return response.status(401).json({
-                message: "unauthorized access",
-                error: true,
-                success: false,
-            });
-        }
-        request.userId = decode === null || decode === void 0 ? void 0 : decode.id;
-        next();
+    const token = request.cookies.accessToken ||
+        ((_b = (_a = request === null || request === void 0 ? void 0 : request.headers) === null || _a === void 0 ? void 0 : _a.authorization) === null || _b === void 0 ? void 0 : _b.split(" ")[1]);
+    if (!token) {
+        return response.status(401).json({
+            message: "Provide token",
+        });
     }
-    catch (error) {
-        return response.status(500).json({
-            message: "You have not login", ///error.message || error,
+    const decode = yield jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY_ACCESS_TOKEN);
+    if (!decode) {
+        return response.status(401).json({
+            message: "Unauthorized access",
             error: true,
             success: false,
         });
     }
-});
+    const userId = decode._id;
+    request.userId = userId;
+    next();
+}));
 exports.default = auth;

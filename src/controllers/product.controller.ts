@@ -141,7 +141,7 @@ export const getProductByCategory = async (request:Request, response:Response) =
 
 export const getProductByCategoryAndSubCategory = async (request:Request, response:Response) => {
   try {
-    const { categoryId, subCategoryId, page, limit } = request.body;
+    let { categoryId, subCategoryId, page, limit } = request.body;
 
     if (!categoryId || !subCategoryId) {
       return response.status(400).json({

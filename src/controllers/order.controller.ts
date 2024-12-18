@@ -2,6 +2,7 @@ import Stripe from "../config/stripe";
 import CartProductModel from "../models/cartProduct.model";
 import OrderModel from "../models/order.model";
 import UserModel from "../models/user.model";
+import Strip from "stripe";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 // import Stripe from "stripe";
@@ -89,7 +90,7 @@ export async function paymentController(request: Request, response: Response) {
       };
     });
 
-    const params = {
+    const params:Strip.Checkout.SessionCreateParams = {
       submit_type: "pay",
       mode: "payment",
       payment_method_types: ["card"],
@@ -193,7 +194,7 @@ export async function webhookStripe(request: { body: any; }, response: { json: (
   response.json({ received: true });
 }
 
-export async function getOrderDetailsController(request: { userId: any; }, response: { json: (arg0: { message: string; data: (mongoose.Document<unknown, {}, { createdAt: NativeDate; updatedAt: NativeDate; } & { totalAmt: number; subTotalAmt: number; orderId: string; paymentId: string; payment_status: string; invoice_receipt: string; userId?: mongoose.Types.ObjectId | null | undefined; productId?: mongoose.Types.ObjectId | null | undefined; product_details?: { image: any[]; name?: string | null | undefined; } | null | undefined; delivery_address?: mongoose.Types.ObjectId | null | undefined; }> & { createdAt: NativeDate; updatedAt: NativeDate; } & { totalAmt: number; subTotalAmt: number; orderId: string; paymentId: string; payment_status: string; invoice_receipt: string; userId?: mongoose.Types.ObjectId | null | undefined; productId?: mongoose.Types.ObjectId | null | undefined; product_details?: { image: any[]; name?: string | null | undefined; } | null | undefined; delivery_address?: mongoose.Types.ObjectId | null | undefined; } & { _id: mongoose.Types.ObjectId; } & { __v: number; })[]; error: boolean; success: boolean; }) => any; status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: any; error: boolean; success: boolean; }): any; new(): any; }; }; }) {
+export async function getOrderDetailsController(request: { userId: any; }, response:any) {
   try {
     const userId = request.userId; // order id
 

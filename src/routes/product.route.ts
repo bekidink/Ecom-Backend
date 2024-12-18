@@ -11,25 +11,26 @@ import {
   updateProductDetails,
 } from "../controllers/product.controller";
 import { admin } from "../middleware/admin";
+import asyncHandler from "../utils/asyncHandler";
 
 const productRouter = Router();
 
-productRouter.post("/create-product", auth,  createProductController);
-productRouter.post("/get-product", getProductController);
-productRouter.post("/get-product-by-category", getProductByCategory);
+productRouter.post("/create-product", auth,  asyncHandler(createProductController));
+productRouter.post("/get-product", asyncHandler(getProductController));
+productRouter.post("/get-product-by-category", asyncHandler(getProductByCategory));
 productRouter.post(
   "/get-pruduct-by-category-and-subcategory",
-  getProductByCategoryAndSubCategory
-);
-productRouter.post("/get-product-details", getProductDetails);
+asyncHandler(  getProductByCategoryAndSubCategory
+));
+productRouter.post("/get-product-details",asyncHandler( getProductDetails));
 
 //update product
-productRouter.put("/update-product-details", auth, admin, updateProductDetails);
+productRouter.put("/update-product-details", auth, admin,asyncHandler( updateProductDetails));
 
 //delete product
-productRouter.delete("/delete-product", auth, admin, deleteProductDetails);
+productRouter.delete("/delete-product", auth, admin,asyncHandler( deleteProductDetails));
 
 //search product
-productRouter.post("/search-product", searchProduct);
+productRouter.post("/search-product",asyncHandler( searchProduct));
 
 export default productRouter;

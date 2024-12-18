@@ -1,7 +1,10 @@
 import AddressModel from "../models/address.model";
 import UserModel from "../models/user.model";
 import { Request, Response, NextFunction } from "express";
-export const addAddressController = async (request:Request, response:Response) => {
+export const addAddressController = async (
+  request: Request,
+  response: Response
+): Promise<Response | void> => {
   try {
     const userId = request.userId; // middleware
     const { address_line, city, state, pincode, country, mobile } =
@@ -30,7 +33,7 @@ export const addAddressController = async (request:Request, response:Response) =
       success: true,
       data: saveAddress,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return response.status(500).json({
       message: error.message || error,
       error: true,
@@ -39,7 +42,10 @@ export const addAddressController = async (request:Request, response:Response) =
   }
 };
 
-export const getAddressController = async (request:Request, response:Response) => {
+export const getAddressController = async (
+  request: Request,
+  response: Response
+): Promise<Response | void> => {
   try {
     const userId = request.userId; // middleware auth
 
@@ -53,7 +59,7 @@ export const getAddressController = async (request:Request, response:Response) =
       error: false,
       success: true,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return response.status(500).json({
       message: error.message || error,
       error: true,
@@ -62,7 +68,10 @@ export const getAddressController = async (request:Request, response:Response) =
   }
 };
 
-export const updateAddressController = async (request:Request, response:Response) => {
+export const updateAddressController = async (
+  request: Request,
+  response: Response
+): Promise<Response | void> => {
   try {
     const userId = request.userId; // middleware auth
     const { _id, address_line, city, state, country, pincode, mobile } =
@@ -86,7 +95,7 @@ export const updateAddressController = async (request:Request, response:Response
       success: true,
       data: updateAddress,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return response.status(500).json({
       message: error.message || error,
       error: true,
@@ -95,7 +104,10 @@ export const updateAddressController = async (request:Request, response:Response
   }
 };
 
-export const deleteAddresscontroller = async (request:Request, response:Response) => {
+export const deleteAddresscontroller = async (
+  request: Request,
+  response: Response
+): Promise<Response | void> => {
   try {
     const userId = request.userId; // auth middleware
     const { _id } = request.body;
@@ -113,7 +125,7 @@ export const deleteAddresscontroller = async (request:Request, response:Response
       success: true,
       data: disableAddress,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return response.status(500).json({
       message: error.message || error,
       error: true,

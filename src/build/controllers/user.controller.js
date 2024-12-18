@@ -159,7 +159,7 @@ function loginController(request, response) {
             const cookiesOption = {
                 httpOnly: true,
                 secure: true,
-                sameSite: "None",
+                // sameSite: "None",
             };
             response.cookie("accessToken", accesstoken, cookiesOption);
             response.cookie("refreshToken", refreshToken, cookiesOption);
@@ -283,7 +283,9 @@ function forgotPasswordController(request, response) {
                 });
             }
             const otp = (0, generatedOtp_1.default)();
-            const expireTime = new Date() + 60 * 60 * 1000; // 1hr
+            const expireTime = new Date();
+            expireTime.setTime(expireTime.getTime() + 60 * 60 * 1000); // Adding 1 hour (in milliseconds)
+            // 1hr
             const update = yield user_model_1.default.findByIdAndUpdate(user._id, {
                 forgot_password_otp: otp,
                 forgot_password_expiry: new Date(expireTime).toISOString(),
@@ -331,7 +333,7 @@ function verifyForgotPasswordOtp(request, response) {
                     success: false,
                 });
             }
-            const currentTime = new Date().toISOString();
+            const currentTime = new Date();
             if (user.forgot_password_expiry < currentTime) {
                 return response.status(400).json({
                     message: "Otp is expired",
@@ -434,7 +436,7 @@ function refreshToken(request, response) {
                     success: false,
                 });
             }
-            const userId = verifyToken === null || verifyToken === void 0 ? void 0 : verifyToken._id;
+            const userId = verifyToken._id;
             const newAccessToken = yield (0, generateAccessToken_1.default)(userId);
             const cookiesOption = {
                 httpOnly: true,

@@ -133,7 +133,7 @@ const getProductByCategory = (request, response) => __awaiter(void 0, void 0, vo
 exports.getProductByCategory = getProductByCategory;
 const getProductByCategoryAndSubCategory = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { categoryId, subCategoryId, page, limit } = request.body;
+        let { categoryId, subCategoryId, page, limit } = request.body;
         if (!categoryId || !subCategoryId) {
             return response.status(400).json({
                 message: "Provide categoryId and subCategoryId",

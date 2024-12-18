@@ -6,12 +6,13 @@ import {
   getCartItemController,
   updateCartItemQtyController,
 } from "../controllers/cartProduct.controller";
+import asyncHandler from "../utils/asyncHandler";
 
 const cartRouter = Router();
 
-cartRouter.post("/create-cart", auth, addToCartItemController);
-cartRouter.get("/get-cart", auth, getCartItemController);
-cartRouter.put("/update-qty", auth, updateCartItemQtyController);
-cartRouter.delete("/delete-cart-item", auth, deleteCartItemQtyController);
+cartRouter.post("/create-cart", auth, asyncHandler(addToCartItemController));
+cartRouter.get("/get-cart", auth, asyncHandler(getCartItemController));
+cartRouter.put("/update-qty", auth, asyncHandler(updateCartItemQtyController));
+cartRouter.delete("/delete-cart-item", auth, asyncHandler(deleteCartItemQtyController));
 
 export default cartRouter;

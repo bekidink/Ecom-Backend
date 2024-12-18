@@ -60,8 +60,8 @@ productSchema.index({
     name: "text",
     description: "text",
 }, {
-    name: 10,
-    description: 5,
+    name: "10",
+    // description: true,
 });
 const ProductModel = mongoose_1.default.model("product", productSchema);
 exports.default = ProductModel;

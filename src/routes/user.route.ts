@@ -14,12 +14,13 @@ import {
 } from "../controllers/user.controller";
 import auth from "../middleware/auth";
 import upload from "../middleware/multer";
+import asyncHandler from "../utils/asyncHandler";
 
 const userRouter = Router();
 
-userRouter.post("/register", registerUserController);
-userRouter.post("/verify-email", verifyEmailController);
-userRouter.post("/login", loginController);
+userRouter.post("/register", asyncHandler(registerUserController));
+userRouter.post("/verify-email",asyncHandler( verifyEmailController));
+userRouter.post("/login",asyncHandler( loginController));
 userRouter.get("/logout", auth, logoutController);
 userRouter.put("/upload-avatar", auth, upload.single("avatar"), uploadAvatar);
 userRouter.put("/update-user", auth, updateUserDetails);
