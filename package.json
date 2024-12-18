@@ -2,12 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.ts",
+  "main": "build/server.js",
   "scripts": {
-  
-  "build": "tsc",
- 
-  "start": "node build/server.js"
+    "build": "tsc",
+    "start": "node build/server.js"
   },
   "keywords": [],
   "author": "",
