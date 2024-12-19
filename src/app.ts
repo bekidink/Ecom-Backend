@@ -24,7 +24,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: "http://192.168.43.97:3000",
+    origin: process.env.FRONTEND_URL,
   })
 );
 app.use(
